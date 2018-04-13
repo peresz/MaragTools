@@ -14,9 +14,9 @@ public class Kwota {
 		lewa = kwota.intValue();
 		prawa = kwota.remainder(BigDecimal.ONE).movePointRight(2).intValue();
 
-		System.out.println("Kwota: " + kwota);
-		System.out.println("Lewa: " + lewa);
-		System.out.println("Prawa: " + prawa);
+//		System.out.println("Kwota: " + kwota);
+//		System.out.println("Lewa: " + lewa);
+//		System.out.println("Prawa: " + prawa);
 
 		slownie = lewa == 0 ? "zero złotych" : getText(lewa, true);
 		slownie += " ";
@@ -75,12 +75,12 @@ public class Kwota {
 				}
 				tekst.append( t2[ot][przedzial] + " " );
 				
-				System.out.println("przedzial = " + przedzial);
-				System.out.println("wykladnik: " + wykl);
-				System.out.println("lizba: " + liczba);
-				System.out.println("ostatnia: " + ostatnia);
-				System.out.println("dwieOstatnie: " + dwieOstatnie);
-				System.out.println(tekst.toString());
+//				System.out.println("przedzial = " + przedzial);
+//				System.out.println("wykladnik: " + wykl);
+//				System.out.println("lizba: " + liczba);
+//				System.out.println("ostatnia: " + ostatnia);
+//				System.out.println("dwieOstatnie: " + dwieOstatnie);
+//				System.out.println(tekst.toString());
 				break;
 			}
 		}
