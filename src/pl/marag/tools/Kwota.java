@@ -4,12 +4,20 @@ import java.math.BigDecimal;
 
 public class Kwota {
 
+	public static String slownie(String kwota) {
+		return slownie( new BigDecimal( kwota.replace(",", ".") ) );
+	}
+	
+	public static String slownie(double kwota) {
+		return slownie( BigDecimal.valueOf(kwota) );
+	}
+	
 	public static String slownie(BigDecimal kwota) {
 		int lewa;
 		int prawa;
 		String slownie;
 
-		kwota = kwota.setScale(2, BigDecimal.ROUND_HALF_DOWN);
+		kwota = kwota.setScale(2, BigDecimal.ROUND_HALF_UP);
 
 		lewa = kwota.intValue();
 		prawa = kwota.remainder(BigDecimal.ONE).movePointRight(2).intValue();
@@ -18,14 +26,16 @@ public class Kwota {
 //		System.out.println("Lewa: " + lewa);
 //		System.out.println("Prawa: " + prawa);
 
-		slownie = lewa == 0 ? "zero złotych" : getText(lewa, true);
-		slownie += " ";
-		slownie += prawa == 0 ? "zero złotych" : getText(prawa, false);
+		slownie = getText(lewa, true) + getText(prawa, false);
 		
 		return slownie;
 	}
 
 	private static String getText(int wart, boolean leftOrRight) {
+		if (wart == 0) {
+			return "zero " + (leftOrRight ? "złotych" : "groszy");
+		}
+		
 		String[][] t2 = new String[6][5];
 
 		String[] jeden = { "grosz", "złoty", "tysiąc", "milion", "bilion" };
@@ -42,29 +52,31 @@ public class Kwota {
 		int liczba;
 		String liczbaTxt;
 		int ostatnia;
-		int dwieOstatnie;
 		int ot = -1;
 
 		StringBuilder tekst = new StringBuilder();
 
 		while (true) {
 			alen = Integer.toString(wart).length();
-			System.out.println("alen = " + alen);
+//			System.out.println("alen = " + alen);
 
 			przedzial = (alen + 2) / 3;
 			wykl = (przedzial * 3) - 3;
 			liczba = wart / (int) Math.pow(10., (double) wykl);
 			liczbaTxt = String.valueOf(liczba);
+			int liczbaTxtDlugosc = liczbaTxt.length(); 
 			
 			tekst.append( trzy(liczba) );
 			
 			ostatnia = Integer.parseInt( liczbaTxt.substring( liczbaTxt.length() - 1 ) );
-			dwieOstatnie = Integer.parseInt( liczbaTxt.substring( liczbaTxt.length() - 2 ) );
 			
 			if ( (ostatnia <= 1) || (ostatnia >= 5) )  ot = 5;
 			if ( (ostatnia == 1) && (liczba == 1) )  ot = 1;
 			if ( (ostatnia >= 2) && (ostatnia <= 4) )  ot = 2;
-			if ( (dwieOstatnie > 10) && (dwieOstatnie < 20) )  ot = 5;
+			if (liczbaTxtDlugosc > 1) {
+				int dwieOstatnie = Integer.parseInt( liczbaTxt.substring( liczbaTxtDlugosc - 2 ) );
+				if ( (dwieOstatnie > 10) && (dwieOstatnie < 20) )  ot = 5;
+			}
 			if ( przedzial > 1 )  tekst.append( t2[ot][przedzial] + " " );
 			
 			wart = wart - (liczba * (int) Math.pow(10., (double) wykl));
@@ -94,7 +106,7 @@ public class Kwota {
 		StringBuilder slowo = new StringBuilder();
 	
 		String[][] t1 =
-			{ 	{"jeden", null, "sto"},
+			{	{"jeden", null, "sto"},
 				{"dwa", "dwadzieścia", "dwieście"},
 				{"trzy", "trzydzieści", "trzysta"},
 				{"cztery", "czterdzieści", "czterysta"},

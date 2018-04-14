@@ -5,25 +5,12 @@ import java.math.BigDecimal;
 public class test {
 
 	public static void main(String[] args) {
-		BigDecimal kwota = new BigDecimal(521125.456);
-		System.out.println( Kwota.slownie(kwota) );
+		System.out.println( Kwota.slownie( 0 ) );
+		System.out.println( Kwota.slownie( 8.08 ) );
+		System.out.println( Kwota.slownie( new BigDecimal(34.28) ) );
+		System.out.println( Kwota.slownie( 168.32 ) );
+		System.out.println( Kwota.slownie( "1248,96" ) );
+		System.out.println( Kwota.slownie( "13765,28" ) );
 	}
-
-//	private static void KwotaSlownie(BigDecimal kwota) {
-//		int lewa;
-//		int prawa;
-//		
-//		kwota = kwota.setScale(2,BigDecimal.ROUND_HALF_DOWN);
-//		
-//		lewa = kwota.intValue();
-//		prawa = kwota
-//				.remainder(BigDecimal.ONE)
-//				.movePointRight(2)
-//				.intValue();
-//		
-//		System.out.println("Kwota: " + kwota);
-//		System.out.println("Lewa: " + lewa);
-//		System.out.println("Prawa: " + prawa);
-//	}
 
 }
